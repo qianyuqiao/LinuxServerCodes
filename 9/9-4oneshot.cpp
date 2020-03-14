@@ -37,7 +37,7 @@ void addfd( int epollfd, int fd, bool oneshot )
     {
         event.events |= EPOLLONESHOT;
     }
-    epoll_ctl( epollfd, EPOLL_CTL_ADD, fd, &event );
+    epoll_ctl( epollfd, EPOLL_CTL_ADD, fd, &event ); // 给fd注册事件，events = EPOLLIN | EPOLLET
     setnonblocking( fd );
 }
 
@@ -46,7 +46,7 @@ void reset_oneshot( int epollfd, int fd )
     epoll_event event;
     event.data.fd = fd;
     event.events = EPOLLIN | EPOLLET | EPOLLONESHOT;
-    epoll_ctl( epollfd, EPOLL_CTL_MOD, fd, &event );
+    epoll_ctl( epollfd, EPOLL_CTL_MOD, fd, &event ); // 重新给fd设置事件   
 }
 
 void* worker( void* arg )
@@ -112,7 +112,7 @@ int main( int argc, char* argv[] )
     epoll_event events[ MAX_EVENT_NUMBER ];
     int epollfd = epoll_create( 5 );
     assert( epollfd != -1 );
-    addfd( epollfd, listenfd, false );
+    addfd( epollfd, listenfd, false ); // add fd
 
     while( 1 )
     {
@@ -135,7 +135,7 @@ int main( int argc, char* argv[] )
             }
             else if ( events[i].events & EPOLLIN )
             {
-                pthread_t thread;
+                pthread_t thread; // 创建一个线程接收数据
                 fds fds_for_new_worker;
                 fds_for_new_worker.epollfd = epollfd;
                 fds_for_new_worker.sockfd = sockfd;
