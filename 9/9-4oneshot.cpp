@@ -76,7 +76,7 @@ void* worker( void* arg )
         }
         else
         {
-            printf( "get content: %s\n", buf );
+            printf( "get content: %s\n", buf ); // 接收内容
             sleep( 5 );
         }
     }
@@ -133,7 +133,7 @@ int main( int argc, char* argv[] )
                 int connfd = accept( listenfd, ( struct sockaddr* )&client_address, &client_addrlength );
                 addfd( epollfd, connfd, true );
             }
-            else if ( events[i].events & EPOLLIN )
+            else if ( events[i].events & EPOLLIN ) // 数据可读
             {
                 pthread_t thread; // 创建一个线程接收数据
                 fds fds_for_new_worker;
