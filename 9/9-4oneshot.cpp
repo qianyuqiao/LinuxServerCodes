@@ -76,7 +76,7 @@ void* worker( void* arg )
         }
         else
         {
-            printf( "get content: %s\n", buf ); // 接收内容
+            printf( "get content: %s\n", buf ); // 接收内容 读了一次 
             sleep( 5 );
         }
     }
