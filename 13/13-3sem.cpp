@@ -27,7 +27,7 @@ int main( int argc, char* argv[] )
 
     union semun sem_un;
     sem_un.val = 1;
-    semctl( sem_id, 0, SETVAL, sem_un );
+    semctl( sem_id, 0, SETVAL, sem_un ); // semval的值设置为1
 
     pid_t id = fork();
     if( id < 0 )
@@ -53,6 +53,6 @@ int main( int argc, char* argv[] )
     }
 
     waitpid( id, NULL, 0 );
-    semctl( sem_id, 0, IPC_RMID, sem_un );
+    semctl( sem_id, 0, IPC_RMID, sem_un ); // 删除信号量
     return 0;
 }
