@@ -18,8 +18,8 @@ static int pipefd[2];
 
 int setnonblocking( int fd )
 {
-    int old_option = fcntl( fd, F_GETFL );
-    int new_option = old_option | O_NONBLOCK;
+    int old_option = fcntl( fd, F_GETFL ); // 获取文件描述符的状态
+    int new_option = old_option | O_NONBLOCK;  //设置为非阻塞
     fcntl( fd, F_SETFL, new_option );
     return old_option;
 }
@@ -28,8 +28,8 @@ void addfd( int epollfd, int fd )
 {
     epoll_event event;
     event.data.fd = fd;
-    event.events = EPOLLIN | EPOLLET;
-    epoll_ctl( epollfd, EPOLL_CTL_ADD, fd, &event );
+    event.events = EPOLLIN | EPOLLET; //可读且边缘触发的时候
+    epoll_ctl( epollfd, EPOLL_CTL_ADD, fd, &event ); // 添加事件
     setnonblocking( fd );
 }
 
